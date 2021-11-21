@@ -21,6 +21,8 @@ class Player(object):
         self.color = YELLOW
         self.node = node
         self.setPosition()
+        # target (player pergi ke mana)
+        self.target = node
 
     # salin posisi vector
     def setPosition(self):
@@ -29,9 +31,14 @@ class Player(object):
     # cek keyboard input
     def update(self, dt):
         direction = self.getValidKey()
-        self.direction = direction
-        self.node = self.getNewTarget(direction)
-        self.setPosition()
+        if self.overshotTarget():
+            self.node = self.target
+            self.target = self.getNewTarget(direction)
+            if self.target is not self.node:
+                self.direction = direction
+            else:
+                self.direction = STOP
+            self.setPosition()
 
     def validDirection(self, direction):
         if direction is not STOP:
@@ -60,3 +67,28 @@ class Player(object):
     def render(self, screen):
         p = self.position.asInt()
         pygame.draw.circle(screen, self.color, p, self.radius)
+
+    # cek jika player overshot target node
+    def overshotTarget(self):
+        if self.target is not None:
+            vec1 = self.target.position - self.node.position
+            vec2 = self.position - self.node.position
+            node2Target = vec1.magnitudeSquared()
+            node2Self = vec2.magnitudeSquared()
+            # jika jarak player lebih dari jarak 2 node return true
+            return node2Self >= node2Target
+        return False
+
+    # ganti arah
+    def reverseDirection(self):
+        self.direction *= -1
+        temp = self.node
+        self.node = self.target
+        self.target = temp
+
+    # cek input keyboard kebalikan dari arah
+    def oppositeDirection(self, direction):
+        if direction is not STOP:
+            if direction == self.direction * -1:
+                return True
+        return False
