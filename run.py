@@ -21,7 +21,7 @@ class GameController(object):
         self.setBackground()
         self.nodes = NodeGroup()
         self.nodes.setupTestNodes()
-        self.player = Player()
+        self.player = Player(self.nodes.nodeList[0])
 
     # dipanggil tiap ganti frame (gameloop)
     def update(self):
@@ -44,11 +44,6 @@ class GameController(object):
         self.nodes.render(self.screen)
         self.player.render(self.screen)
         pygame.display.update()
-
-    def update(self):
-        dt = self.clock.tick(30) / 1000.0
-        self.checkEvents()
-        self.render()
 
 if __name__ == "__main__":
     game = GameController()
