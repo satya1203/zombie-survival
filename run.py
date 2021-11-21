@@ -10,18 +10,24 @@ class GameController(object):
         self.screen = pygame.display.set_mode(SCREENSIZE, 0, 32)
         self.background = None
 
+    # create background
     def setBackground(self):
         self.background = pygame.surface.Surface(SCREENSIZE).convert()
         self.background.fill(BLACK)
 
+    #
     def startGame(self):
         self.setBackground()
         self.player = Player()
 
+    # dipanggil tiap ganti frame (gameloop)
     def update(self):
+        # waktu dalam detik
         dt = self.clock.tick(30) / 1000.0
         self.player.update(dt)
+        # cek event tertentu
         self.checkEvents()
+        # draw image ke screen
         self.render()
 
     def checkEvents(self):
@@ -30,6 +36,7 @@ class GameController(object):
                 exit()
 
     def render(self):
+        # gambar ulang supaya tidak tumpang tindih
         self.screen.blit(self.background, (0, 0))
         self.player.render(self.screen)
         pygame.display.update()

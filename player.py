@@ -6,13 +6,17 @@ from constants import *
 class Player(object):
     def __init__(self):
         self.name = PLAYER
+        # posisi awal
         self.position = Vector2(200, 400)
         self.directions = {STOP:Vector2(), UP:Vector2(0,-1), DOWN:Vector2(0,1), LEFT:Vector2(-1,0), RIGHT:Vector2(1,0)}
+        # arah awal
         self.direction = STOP
         self.speed = 100
+        # besar player
         self.radius = 10
         self.color = YELLOW
 
+    # cek keyboard input
     def update(self, dt):
         self.position += self.directions[self.direction]*self.speed*dt
         direction = self.getValidKey()
@@ -30,6 +34,7 @@ class Player(object):
             return RIGHT
         return STOP
 
+    # draw player
     def render(self, screen):
         p = self.position.asInt()
         pygame.draw.circle(screen, self.color, p, self.radius)
