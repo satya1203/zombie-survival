@@ -30,6 +30,7 @@ class Player(object):
 
     # cek keyboard input
     def update(self, dt):
+        self.position += self.directions[self.direction]*self.speed*dt
         direction = self.getValidKey()
         if self.overshotTarget():
             self.node = self.target
@@ -37,8 +38,14 @@ class Player(object):
             if self.target is not self.node:
                 self.direction = direction
             else:
+                self.target = self.getNewTarget(self.direction)
+
+            if self.target is self.node:
                 self.direction = STOP
             self.setPosition()
+        else: 
+            if self.oppositeDirection(direction):
+                self.reverseDirection()
 
     def validDirection(self, direction):
         if direction is not STOP:
