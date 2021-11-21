@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from constants import *
 from player import Player
+from nodes import NodeGroup
 
 class GameController(object):
     def __init__(self):
@@ -18,6 +19,8 @@ class GameController(object):
     #
     def startGame(self):
         self.setBackground()
+        self.nodes = NodeGroup()
+        self.nodes.setupTestNodes()
         self.player = Player()
 
     # dipanggil tiap ganti frame (gameloop)
@@ -38,6 +41,7 @@ class GameController(object):
     def render(self):
         # gambar ulang supaya tidak tumpang tindih
         self.screen.blit(self.background, (0, 0))
+        self.nodes.render(self.screen)
         self.player.render(self.screen)
         pygame.display.update()
 
