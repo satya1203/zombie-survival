@@ -19,9 +19,8 @@ class GameController(object):
     #
     def startGame(self):
         self.setBackground()
-        self.nodes = NodeGroup()
-        self.nodes.setupTestNodes()
-        self.player = Player(self.nodes.nodeList[0])
+        self.nodes = NodeGroup("mazetest.txt")
+        self.player = Player(self.nodes.getStartTempNode())
 
     # dipanggil tiap ganti frame (gameloop)
     def update(self):
