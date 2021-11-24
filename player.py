@@ -34,6 +34,9 @@ class Player(object):
         direction = self.getValidKey()
         if self.overshotTarget():
             self.node = self.target
+            # jika ada 2 portal maka menjadi portal 2 arah
+            if self.node.neighbors[PORTAL] is not None:
+                self.node = self.node.neighbors[PORTAL]
             self.target = self.getNewTarget(direction)
             if self.target is not self.node:
                 self.direction = direction

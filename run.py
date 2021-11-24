@@ -16,10 +16,11 @@ class GameController(object):
         self.background = pygame.surface.Surface(SCREENSIZE).convert()
         self.background.fill(BLACK)
 
-    #
     def startGame(self):
         self.setBackground()
         self.nodes = NodeGroup("maze1.txt")
+        # set koordinat titik portal
+        self.nodes.setPortalPair((0,17), (27,17))
         self.player = Player(self.nodes.getStartTempNode())
 
     # dipanggil tiap ganti frame (gameloop)

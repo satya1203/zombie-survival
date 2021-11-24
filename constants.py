@@ -23,3 +23,6 @@ LEFT = 2
 RIGHT = -2
 
 PLAYER = 0
+
+#PORTAL
+PORTAL = 3
