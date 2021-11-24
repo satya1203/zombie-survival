@@ -4,6 +4,7 @@ from constants import *
 from player import Player
 from nodes import NodeGroup
 from zombies import Zombie
+from pauser import Pause
 
 class GameController(object):
     def __init__(self):
@@ -11,6 +12,7 @@ class GameController(object):
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode(SCREENSIZE, 0, 32)
         self.background = None
+        self.pause = Pause(True)
 
     # create background
     def setBackground(self):
@@ -29,8 +31,13 @@ class GameController(object):
     def update(self):
         # waktu dalam detik
         dt = self.clock.tick(30) / 1000.0
-        self.player.update(dt)
-        self.zombie.update(dt)
+        
+        if not self.pause.paused:
+            self.player.update(dt)
+            self.zombie.update(dt)
+        afterPauseMethod = self.pause.update(dt)
+        if afterPauseMethod is not None:
+            afterPauseMethod()
         # cek event tertentu
         self.checkEvents()
         # draw image ke screen
@@ -40,6 +47,19 @@ class GameController(object):
         for event in pygame.event.get():
             if event.type == QUIT:
                 exit()
+            elif event.type == KEYDOWN:
+                if event.key == K_SPACE:
+                    self.pause.setPause(playerPaused=True)
+                    if not self.pause.paused:
+                        self.showEntities()
+                    else:
+                        self.hideEntities()
+
+    def showEntities(self):
+        self.player.visible = True
+
+    def hideEntities(self):
+        self.player.visible = False
 
     def render(self):
         # gambar ulang supaya tidak tumpang tindih
