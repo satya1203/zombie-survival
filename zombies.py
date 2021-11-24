@@ -30,3 +30,9 @@ class Zombie(Entity):
 
     def chase(self):
         self.goal = self.player.position
+
+    # reset zombie saat player mati
+    def reset(self):
+        Entity.reset(self)
+        self.points = 200
+        self.directionMethod = self.goalDirection

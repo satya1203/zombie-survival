@@ -13,6 +13,23 @@ class GameController(object):
         self.screen = pygame.display.set_mode(SCREENSIZE, 0, 32)
         self.background = None
         self.pause = Pause(True)
+        self.lives = 3
+
+    def restartGame(self):
+        self.lives = 3
+        self.pause.paused = True
+        self.startGame()
+
+    def resetLevel(self):
+        self.pause.paused = True
+        self.player.reset()
+        self.zombie.reset()
+
+    def reset(self):
+        self.setStartNode(self.startNode)
+        self.direction = STOP
+        self.speed = 100
+        self.visible = True
 
     # create background
     def setBackground(self):
@@ -35,6 +52,7 @@ class GameController(object):
         if not self.pause.paused:
             self.player.update(dt)
             self.zombie.update(dt)
+            self.checkZombieEvents()
         afterPauseMethod = self.pause.update(dt)
         if afterPauseMethod is not None:
             afterPauseMethod()
@@ -49,11 +67,22 @@ class GameController(object):
                 exit()
             elif event.type == KEYDOWN:
                 if event.key == K_SPACE:
-                    self.pause.setPause(playerPaused=True)
-                    if not self.pause.paused:
-                        self.showEntities()
-                    else:
-                        self.hideEntities()
+                    if self.player.alive:
+                        self.pause.setPause(playerPaused=True)
+                        if not self.pause.paused:
+                            self.showEntities()
+                        else:
+                            self.hideEntities()
+
+    def checkZombieEvents(self):
+        if self.player.collideZombie(self.zombie) and self.player.alive:
+            self.lives -=  1
+            self.player.die()
+            if self.lives <= 0:
+                self.pause.setPause(pauseTime=3, func=self.restartGame)
+            else:
+                self.pause.setPause(pauseTime=3, func=self.resetLevel)
+
 
     def showEntities(self):
         self.player.visible = True

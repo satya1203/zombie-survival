@@ -25,7 +25,18 @@ class Player(Entity):
         self.setPosition()
         # target (player pergi ke mana)
         self.target = node
+        # status hidup player
+        self.alive = True
 
+    # reset saat mati
+    def reset(self):
+        Entity.reset(self)
+        self.alive = True
+
+    def die(self):
+        self.alive = False
+        self.direction = STOP
+    
     # salin posisi vector
     def setPosition(self):
         self.position = self.node.position.copy()
@@ -103,4 +114,15 @@ class Player(Entity):
         if direction is not STOP:
             if direction == self.direction * -1:
                 return True
+        return False
+    
+    def collideZombie(self, zombie):
+        return self.collideCheck(zombie)
+
+    def collideCheck(self, other):
+        d = self.position - other.position
+        dSquared = d.magnitudeSquared()
+        rSquared = (self.collideRadius + other.collideRadius)**2
+        if dSquared <= rSquared:
+            return True
         return False
