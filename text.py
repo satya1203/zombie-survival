@@ -81,9 +81,6 @@ class TextGroup(object):
     def updateScore(self, score):
         self.updateText(SCORETXT, str(score).zfill(8))
 
-    def updateLevel(self, level):
-        self.updateText(LEVELTXT, str(level + 1).zfill(3))
-
     def updateText(self, id, value):
         if id in self.alltext.keys():
             self.alltext[id].setText(value)

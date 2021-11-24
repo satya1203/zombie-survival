@@ -24,7 +24,6 @@ class GameController(object):
         self.startGame()
         self.score = 0
         self.textgroup.updateScore(self.score)
-        self.textgroup.updateLevel(self.level)
         self.textgroup.showText(READYTXT)
 
     def resetLevel(self):
