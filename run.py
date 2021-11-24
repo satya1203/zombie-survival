@@ -19,10 +19,10 @@ class GameController(object):
 
     def startGame(self):
         self.setBackground()
-        self.nodes = NodeGroup("maze1.txt")
+        self.nodes = NodeGroup("map.txt")
         # set koordinat titik portal
         self.nodes.setPortalPair((0,17), (27,17))
-        self.player = Player(self.nodes.getStartTempNode())
+        self.player = Player(self.nodes.getNodeFromTiles(15, 26))
         self.zombie = Zombie(self.nodes.getStartTempNode(), self.player)
 
     # dipanggil tiap ganti frame (gameloop)
