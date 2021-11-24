@@ -3,6 +3,7 @@ from pygame.locals import *
 from constants import *
 from player import Player
 from nodes import NodeGroup
+from zombies import Zombie
 
 class GameController(object):
     def __init__(self):
@@ -22,12 +23,14 @@ class GameController(object):
         # set koordinat titik portal
         self.nodes.setPortalPair((0,17), (27,17))
         self.player = Player(self.nodes.getStartTempNode())
+        self.zombie = Zombie(self.nodes.getStartTempNode())
 
     # dipanggil tiap ganti frame (gameloop)
     def update(self):
         # waktu dalam detik
         dt = self.clock.tick(30) / 1000.0
         self.player.update(dt)
+        self.zombie.update(dt)
         # cek event tertentu
         self.checkEvents()
         # draw image ke screen
@@ -43,6 +46,7 @@ class GameController(object):
         self.screen.blit(self.background, (0, 0))
         self.nodes.render(self.screen)
         self.player.render(self.screen)
+        self.zombie.render(self.screen)
         pygame.display.update()
 
 if __name__ == "__main__":
