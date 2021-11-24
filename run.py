@@ -5,6 +5,7 @@ from player import Player
 from nodes import NodeGroup
 from zombies import Zombie
 from pauser import Pause
+from text import TextGroup
 
 class GameController(object):
     def __init__(self):
@@ -14,16 +15,23 @@ class GameController(object):
         self.background = None
         self.pause = Pause(True)
         self.lives = 3
+        self.score = 0
+        self.textgroup = TextGroup()
 
     def restartGame(self):
         self.lives = 3
         self.pause.paused = True
         self.startGame()
+        self.score = 0
+        self.textgroup.updateScore(self.score)
+        self.textgroup.updateLevel(self.level)
+        self.textgroup.showText(READYTXT)
 
     def resetLevel(self):
         self.pause.paused = True
         self.player.reset()
         self.zombie.reset()
+        self.textgroup.showText(READYTXT)
 
     def reset(self):
         self.setStartNode(self.startNode)
@@ -48,8 +56,9 @@ class GameController(object):
     def update(self):
         # waktu dalam detik
         dt = self.clock.tick(30) / 1000.0
-        
+        self.textgroup.update(dt)
         if not self.pause.paused:
+            self.updateScore(1)
             self.player.update(dt)
             self.zombie.update(dt)
             self.checkZombieEvents()
@@ -61,6 +70,11 @@ class GameController(object):
         # draw image ke screen
         self.render()
 
+    # update score
+    def updateScore(self, points):
+        self.score += points
+        self.textgroup.updateScore(self.score)
+
     def checkEvents(self):
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -70,8 +84,10 @@ class GameController(object):
                     if self.player.alive:
                         self.pause.setPause(playerPaused=True)
                         if not self.pause.paused:
+                            self.textgroup.hideText()
                             self.showEntities()
                         else:
+                            self.textgroup.showText(PAUSETXT)
                             self.hideEntities()
 
     def checkZombieEvents(self):
@@ -79,6 +95,7 @@ class GameController(object):
             self.lives -=  1
             self.player.die()
             if self.lives <= 0:
+                self.textgroup.showText(GAMEOVERTXT)
                 self.pause.setPause(pauseTime=3, func=self.restartGame)
             else:
                 self.pause.setPause(pauseTime=3, func=self.resetLevel)
@@ -96,6 +113,7 @@ class GameController(object):
         self.nodes.render(self.screen)
         self.player.render(self.screen)
         self.zombie.render(self.screen)
+        self.textgroup.render(self.screen)
         pygame.display.update()
 
 if __name__ == "__main__":
