@@ -28,7 +28,6 @@ class Entity(object):
         self.target = node
         self.setPosition()
 
-
     def setPosition(self):
         self.position = self.node.position.copy()
           
