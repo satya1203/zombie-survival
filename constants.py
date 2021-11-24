@@ -27,5 +27,9 @@ RIGHT = -2
 PLAYER = 0
 ZOMBIE = 1
 
+# Zombie mode
+WANDER = 0 
+CHASE = 1
+
 # Portal
 PORTAL = 3

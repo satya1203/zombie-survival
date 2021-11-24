@@ -23,7 +23,7 @@ class GameController(object):
         # set koordinat titik portal
         self.nodes.setPortalPair((0,17), (27,17))
         self.player = Player(self.nodes.getStartTempNode())
-        self.zombie = Zombie(self.nodes.getStartTempNode())
+        self.zombie = Zombie(self.nodes.getStartTempNode(), self.player)
 
     # dipanggil tiap ganti frame (gameloop)
     def update(self):
