@@ -133,8 +133,11 @@ class Entity(object):
         distances = []
         # ambil list arah
         for direction in directions:
-            # hitung jarak entity ke goal
-            vec = self.node.position  + self.directions[direction]*TILEWIDTH - self.goal
-            distances.append(vec.magnitudeSquared())
+            # hitung jarak entity ke goal 
+            heuristic = self.node.position  + self.directions[direction]*TILEWIDTH - self.goal
+            # hitung cost entity ke node arah 
+            cost = self.directions[direction]*TILEWIDTH
+            distances.append(heuristic.magnitudeSquared() + cost.magnitudeSquared())
+
         index = distances.index(min(distances))
         return directions[index]
