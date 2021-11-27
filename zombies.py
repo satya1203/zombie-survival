@@ -31,9 +31,14 @@ class Zombie(Entity):
 
     def wander(self):
         self.goal = Vector2()
+        self.directionMethod = self.randomDirection
 
     def chase(self):
         self.goal = self.player.position
+        if self.ai_method == 'heuristic': 
+            self.directionMethod = self.goalHeuristic
+        else:
+            self.directionMethod = self.goalAstar
 
     # reset zombie saat player mati
     def reset(self):
