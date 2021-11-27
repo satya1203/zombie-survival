@@ -6,13 +6,17 @@ from entity import Entity
 from modes import ModeController
 
 class Zombie(Entity):
-    def __init__(self, node, player=None):
+    def __init__(self, node, player=None, ai_method='heuristic'):
         Entity.__init__(self, node)
         self.name = ZOMBIE
         self.color = GREEN
         self.points = 200
         self.goal = Vector2()
-        self.directionMethod = self.goalDirection
+        if ai_method == 'heuristic': 
+            self.directionMethod = self.goalHeuristic
+        else:
+            self.directionMethod = self.goalAstar
+        self.ai_method = ai_method
         self.player = player
         self.mode = ModeController(self)
 
@@ -35,4 +39,7 @@ class Zombie(Entity):
     def reset(self):
         Entity.reset(self)
         self.points = 200
-        self.directionMethod = self.goalDirection
+        if self.ai_method == 'heuristic': 
+            self.directionMethod = self.goalHeuristic
+        else:
+            self.directionMethod = self.goalAstar

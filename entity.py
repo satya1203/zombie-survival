@@ -118,7 +118,18 @@ class Entity(object):
         return directions[randint(0, len(directions)-1)]
 
     # tentukan goal secara heuristic
-    def goalDirection(self, directions):
+    def goalHeuristic(self, directions):
+        distances = []
+        # ambil list arah
+        for direction in directions:
+            # hitung jarak entity ke goal
+            vec = self.node.position  + self.directions[direction]*TILEWIDTH - self.goal
+            distances.append(vec.magnitudeSquared())
+        index = distances.index(min(distances))
+        return directions[index]
+
+    # tentukan goal secara a*
+    def goalAstar(self, directions):
         distances = []
         # ambil list arah
         for direction in directions:

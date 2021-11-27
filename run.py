@@ -1,3 +1,4 @@
+import sys
 import pygame
 from pygame.locals import *
 from constants import *
@@ -43,13 +44,13 @@ class GameController(object):
         self.background = pygame.surface.Surface(SCREENSIZE).convert()
         self.background.fill(BLACK)
 
-    def startGame(self):
+    def startGame(self, ai_method):
         self.setBackground()
         self.nodes = NodeGroup("map.txt")
         # set koordinat titik portal
         self.nodes.setPortalPair((0,17), (27,17))
         self.player = Player(self.nodes.getNodeFromTiles(15, 26))
-        self.zombie = Zombie(self.nodes.getNodeFromTiles(12, 14), self.player)
+        self.zombie = Zombie(self.nodes.getNodeFromTiles(12, 14), self.player, ai_method)
 
     # dipanggil tiap ganti frame (gameloop)
     def update(self):
@@ -116,7 +117,20 @@ class GameController(object):
         pygame.display.update()
 
 if __name__ == "__main__":
-    game = GameController()
-    game.startGame()
-    while True:
-        game.update()
+    # default method is heuristic
+    ai_method = 'heuristic'
+    
+    # cli argument to choose ai method
+    try:
+        ai_method = sys.argv[1]
+    except:
+        print('No argument entered, zombies will use the default heuristic method to chase you, good luck!')
+
+    if ai_method == 'heuristic' or ai_method == 'astar':
+        print('Zombies will use ' + ai_method + ' method to chase you, good luck!')
+        game = GameController()
+        game.startGame(ai_method)
+        while True:
+            game.update()
+    else:
+        print('Invalid Argument, use either \'heuristic\' or \'astar\'')
