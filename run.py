@@ -22,7 +22,7 @@ class GameController(object):
     def restartGame(self):
         self.lives = 3
         self.pause.paused = True
-        self.startGame()
+        self.startGame(ai_method)
         self.score = 0
         self.textgroup.updateScore(self.score)
         self.textgroup.showText(READYTXT)
