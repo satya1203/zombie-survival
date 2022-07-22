@@ -48,7 +48,9 @@ class GameController(object):
         self.setBackground()
         self.nodes = NodeGroup("map.txt")
         # set koordinat titik portal
-        self.nodes.setPortalPair((0,17), (27,17))
+        # self.nodes.setPortalPair((0,17), (27,17))
+        self.nodes.setPortalPair((9,10), (18,10))
+        # self.nodes.setPortalPair((3,17), (24,17))
         self.player = Player(self.nodes.getNodeFromTiles(15, 26))
         self.zombie = Zombie(self.nodes.getNodeFromTiles(12, 14), self.player, ai_method)
 

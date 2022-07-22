@@ -61,6 +61,11 @@ class TextGroup(object):
         self.alltext[READYTXT] = Text("READY!", YELLOW, 11.25*TILEWIDTH, 20*TILEHEIGHT, size, visible=False)
         self.alltext[PAUSETXT] = Text("PAUSED!", YELLOW, 10.625*TILEWIDTH, 20*TILEHEIGHT, size, visible=False)
         self.alltext[GAMEOVERTXT] = Text("GAMEOVER!", YELLOW, 10*TILEWIDTH, 20*TILEHEIGHT, size, visible=False)
+        self.alltext[NOTE] = Text("Zombie Survival", YELLOW, 18.5*TILEWIDTH,0, 10, visible=True)
+        self.alltext[MEMBER1] = Text("Christian", YELLOW, 2*TILEWIDTH, 33*TILEHEIGHT, 10, visible=True)
+        self.alltext[MEMBER2] = Text("Lucky", YELLOW, 2*TILEWIDTH, 35*TILEHEIGHT, 10, visible=True)
+        self.alltext[MEMBER3] = Text("Dave", YELLOW, 17*TILEWIDTH, 33*TILEHEIGHT, 10, visible=True)
+        self.alltext[MEMBER4] = Text("Tridia", YELLOW, 17*TILEWIDTH, 35*TILEHEIGHT, 10, visible=True)
         self.addText("SCORE", WHITE, 0, 0, size)
 
     def update(self, dt):

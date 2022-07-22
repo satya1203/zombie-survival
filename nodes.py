@@ -23,7 +23,7 @@ class NodeGroup(object):
         # map dari text file
         self.level = level 
         # Look Up Table : dictionary untuk node
-        self.nodesLUT = {}
+        self.nodesLUT  = {}
         self.nodeSymbols = ['+']
         self.pathSymbols = ['.']
         data = self.readMazeFile(level)
